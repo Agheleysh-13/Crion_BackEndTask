@@ -70,6 +70,10 @@ async function GetUserBId (req, res) {
 //To create an user in the database
 async function Createuser(req, res) {
   try {
+    var emailFormat = /^[A-Za-z0-9](([a-zA-Z0-9,=\.!\-#|\$%\^&\*\+/\?_`\{\}~]+)*)@(?:[0-9a-zA-Z-]+\.)+[a-zA-Z]{2,9}$/;
+    if (req.email !== '' && !emailFormat.test(req.body.email)){ 
+      return res.status(400).json({ message: "Invalid parameter,Email" }) 
+    }
     console.log('request received', req.body)
     const newUser = await userInfo.create(req.body)
     return res.status(200).json(newUser)
@@ -87,7 +91,10 @@ async function Edituser (req, res){
   const { id } = req.params
   console.log('id', id)
   try {
-    console.log('request received', req.body)
+    var emailFormat = /^[A-Za-z0-9](([a-zA-Z0-9,=\.!\-#|\$%\^&\*\+/\?_`\{\}~]+)*)@(?:[0-9a-zA-Z-]+\.)+[a-zA-Z]{2,9}$/;
+    if (req.email !== '' && !emailFormat.test(req.body.email)){ 
+      return res.status(400).json({ message: "Invalid parameter,Email" }) 
+    }
     await userInfo.findByIdAndUpdate(id, req.body)
     const updatedUser = await userInfo.findById(id)
     if (!updatedUser) {
