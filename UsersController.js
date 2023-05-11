@@ -5,6 +5,7 @@ router.use(express.json())
 
 //Route To generate Auth token
 router.post('/login',bl.GenerateToken)
+
 //Route To get All the users details
 router.get('/',bl.Authenticate,bl.Getuser)
 
