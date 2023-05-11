@@ -38,12 +38,10 @@ const Getuser = async (req, res) => {
   try {
     const Users = await userInfo.find({})
     console.log(Users)
-    connect.connection.close()
     res.status(200).json(Users)
   }
   catch (error) {
     console.log('error', error.message)
-    connect.connection.close()
     res.status(500).json({ message: error.message })
   }
 }
@@ -51,7 +49,6 @@ const Getuser = async (req, res) => {
 //Function to get info on a User by id
 const GetUserBId = async (req, res) => {
   if (req.params.id.length < 24) {
-    connect.connection.close()
     res.status(400).json({ Message: "Bad Request,Invaild ID for an user" })
   }
   const { id } = req.params
@@ -60,15 +57,12 @@ const GetUserBId = async (req, res) => {
     const User = await userInfo.findById(id)
     console.log(User)
     if (!User) {
-      connect.connection.close()
       res.status(404).json({ Message: "User Not Found" })
     }
-    connect.connection.close()
     res.status(200).json(User)
   }
   catch (error) {
     console.log('error', error.message)
-    connect.connection.close()
     res.status(500).json({ message: error.message })
   }
 }
@@ -78,11 +72,9 @@ const Createuser = async (req, res) => {
   try {
     console.log('request received', req.body)
     const newUser = await userInfo.create(req.body)
-    connect.connection.close()
     res.status(200).json(newUser)
   } catch (error) {
     console.log(error.message)
-    connect.connection.close()
     res.status(400).json({ message: error.message })
   }
 }
@@ -90,7 +82,6 @@ const Createuser = async (req, res) => {
 //To edit user details
 const Edituser = async (req, res) => {
   if (req.params.id.length < 24) {
-    connect.connection.close()
     res.status(400).json({ Message: "Bad Request,Invaild ID for an user" })
   }
   const { id } = req.params
@@ -99,15 +90,12 @@ const Edituser = async (req, res) => {
     console.log('request received', req.body)
     await userInfo.findByIdAndUpdate(id, req.body)
     const updatedUser = await userInfo.findById(id)
-    connect.connection.close()
     if (!updatedUser) {
-     connect.connection.close()
       res.status(404).json({ Message: "User Not Found" })
     }
     res.status(200).json(updatedUser)
   } catch (error) {
     console.log(error.message)
-    connect.connection.close()
     res.status(500).json({ message: error.message })
   }
 }
@@ -116,7 +104,6 @@ const Edituser = async (req, res) => {
 const Deleteuser = async (req, res) => {
   console.log('delete API')
   if (req.params.id.length < 24) {
-    connect.connection.close()
     res.status(400).json({ Message: "Bad Request,Invaild ID for an user" })
   }
   const { id } = req.params
@@ -124,12 +111,10 @@ const Deleteuser = async (req, res) => {
   try {
     const deleteuser = await userInfo.findByIdAndDelete(id)
     if (!deleteuser) {
-      connect.connection.close()
       res.status(404).json({ Message: "User Not Found" })
     }
     res.status(200).json(deleteuser)
   } catch (error) {
-    connect.connection.close()
     console.log(error.message)
     res.status(500).json({ message: error.message })
   }
