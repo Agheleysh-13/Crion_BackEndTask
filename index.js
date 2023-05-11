@@ -8,7 +8,8 @@ const app = express();
 const userrouter= require('./UsersController')
 app.use('/User',userrouter)
 const URl=process.env.DB_URL
-console.log('DBURL',URl)
+
+//Function to establish MongoDb connection
 async function connect(){
     try{
         console.log("Into Connection")
@@ -24,6 +25,7 @@ async function connect(){
 }
 connect();
 console.log("process.env.port",process.env.PORT)
+
 const port = process.env.PORT ||5000;
 app.listen(port,console.log(`Server started on port ${port}`));
 
